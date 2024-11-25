@@ -20,18 +20,18 @@
 
 [<img src="figs/C1.png" height="216"/>](https://imgsli.com/MjIyMjk5) [<img src="figs/C2.png" height="216"/>](https://imgsli.com/MjIyMzAy) [<img src="figs/C3.png" height="216"/>](https://imgsli.com/MjIyMzEw) [<img src="figs/C4.png" height="216"/>](https://imgsli.com/MjIyMzA4)
 
-[<img src="figs/C5.png" height="215"/>](https://imgsli.com/MjIyMzA0) [<img src="figs/C6.png" height="215"/>](https://imgsli.com/MjIyMzAw) [<img src="figs/C7.png" height="215"/>](https://imgsli.com/MjIyMjk3)
+[<img src="figs/C5.png" height="215"/>](https://imgsli.com/MjIyMzA0) [<img src="figs/C6.png" height="215"/>](https://imgsli.com/MjIyMzAw) [<img src="figs/C7.png" height="215"/>](https://imgsli.com/MjIyMjk3) -->
 
 ---
 
-|                      LR                      |                   Bicubic                    |             Prompt: [*Light Noise*]             |             Prompt: [*Heavy Noise*]             |
+|                      HR                      |                   LR                     |             OSEDiff             |             PassionSR(8-bit)             |
 | :------------------------------------------: | :------------------------------------------: | :---------------------------------------------: | :---------------------------------------------: |
-| <img src="figs/ComL_frog_BI.png" height=100> | <img src="figs/ComS_frog_BI.png" height=100> | <img src="figs/ComS_frog_Light.png" height=100> | <img src="figs/ComS_frog_Heavy.png" height=100> |
-| <img src="figs/ComL_dog_BI.png" height=100>  | <img src="figs/ComS_dog_BI.png" height=100>  | <img src="figs/ComS_dog_Light.png" height=100>  | <img src="figs/ComS_dog_Heavy.png" height=100>  |
+| <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/HR_org.png" height=127> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=127> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=127> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=127> |
+| <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/HR_org.png" height=127>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=127>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=127>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=127>  |
 
 ## ⚒️ TODO
 
-* [ ] Release code and pretrained models -->
+* [ ] Release code and pretrained models
 
 ## 🔗 Contents
 

@@ -1,0 +1,11 @@
+accept_image_size: !!python/tuple
+- 800
+- 800
+- 3
+center_x: 350
+center_y: 400
+target_height: 200
+target_width: 300
+up_left: !!python/tuple
+- 0
+- 200
