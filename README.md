@@ -26,8 +26,8 @@
 
 |                      HR                      |                   LR                     |             OSEDiff(32-bit)             | EfficientDM(8-bit)  |             PassionSR(8-bit)             |
 | :------------------------------------------: | :------------------------------------------: | :---------------------------------------------: | :---------------------------------------------: | :---------------------------------------------: |
-| <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/HR_org.png" height=120> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=120> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=120> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/Qalora Image.png" height=120> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=120> |
-| <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/HR_org.png" height=120>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=120>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=120>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/Qalora Image.png" height=120>| <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=120>  |
+| <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/HR_org.png" height=110> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=110> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=110> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/Qalora Image.png" height=110> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=110> |
+| <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/HR_org.png" height=110>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=110>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=110>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/Qalora Image.png" height=110>| <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=110>  |
 
 ## ⚒️ TODO
 
