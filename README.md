@@ -71,9 +71,9 @@ PassionSR significantly out-performs previous methods at the setting of W8A8 and
 If you find the code helpful in your resarch or work, please cite the following paper(s).
 
 ```
-@article{chen2023image,
+@article{zhu2024passionsr,
   title={PassionSR: Post-Training Quantization  with Adaptive Scale in One-Step Diffusion based Image Super-Resolution},
-  author={Libo, Jianze and Haotong, Yulun and Yong, Xiaokang},
+  author={Libo Zhu, Jianze Li and Haotong Qin, Yulun Zhang and Yong Guo, Xiaokang Yang},
   journal={arXiv preprint arXiv:2303.06373},
   year={2024}
 }
