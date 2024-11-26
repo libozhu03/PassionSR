@@ -1,5 +1,5 @@
 <div align="center">
-<p align="center"> <img src="figs/Passion.png" width="300px"> </p>
+<p align="center"> <img src="figs/Passion_compress.png" width="300px"> </p>
 </div>
 
 # PassionSR
@@ -26,8 +26,8 @@
 
 |                      HR                      |                   LR                     |             OSEDiff(32-bit)             | EfficientDM(8-bit)  |             PassionSR(8-bit)             |
 | :------------------------------------------: | :------------------------------------------: | :---------------------------------------------: | :---------------------------------------------: | :---------------------------------------------: |
-| <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/HR_org.png" height=100> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=100> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=100> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/Qalora Image.png" height=100> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=100> |
-| <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/HR_org.png" height=100>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=100>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=100>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/Qalora Image.png" height=100>| <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=100>  |
+| <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/HR_org.png" height=110> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=110> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=110> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/Qalora Image.png" height=110> | <img src="figs/Nikon_049_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=110> |
+| <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/HR_org.png" height=110>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/lr_Image.png" height=110>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/fp context Image.png" height=110>  | <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/Qalora Image.png" height=110>| <img src="figs/Canon_032_HRUV_U_W8A8_V_W8A8/PassionSR Image.png" height=110>  |
 
 ## ⚒️ TODO
 
@@ -44,27 +44,24 @@
 
 PassionSR significantly out-performs previous methods at the setting of W8A8 and W6A6.
 
+
+Evaluation on Synthetic Datasets
+
+
 <details>
-<summary>Evaluation on Synthetic Datasets (click to expand)</summary>
-
-
-
-- quantitative comparisons in Table 2 of the main paper
-
+<summary>quantitative comparisons in Table 2 of the main paper (click to expand)</summary>
 <p align="center">
   <img width="900" src="figs/results_UNet_Vae.png">
 </p>
 
+</details>
 
-
-- visual comparison in Figure 6 of the main paper
-
+<details>
+<summary>visual comparison in Figure 6 of the main paper (click to expand)</summary>
 <p align="center">
   <img width="900" src="figs/visual_UNet_Vae.png">
 </p>
 </details>
-
-
 
 ## <a name="citation"></a>📎 Citation
 
