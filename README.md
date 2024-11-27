@@ -1,5 +1,5 @@
 <div align="center">
-<p align="center"> <img src="figs/Passion_compress.png" width="300px"> </p>
+<p align="center"> <img src="figs/Passion_compress_256.jpg" width="200px"> </p>
 </div>
 
 # PassionSR: Post-Training Quantization with Adaptive Scale in One-Step Diffusion based Image Super-Resolution
