@@ -6,7 +6,7 @@
 
 [LiBo Zhu](https://github.com/LiBoZhu030073), [Jianze Li](https://github.com/JianzeLi-114), [Haotong Qin](https://htqin.github.io/), [Yulun Zhang](http://yulunzhang.com/), [Yong Guo](https://www.guoyongcs.com/) and [Xiaokang Yang](https://scholar.google.com/citations?user=yDEavdMAAAAJ), "Post-Training Quantization  with Adaptive Scale in One-Step Diffusion based Image Super-Resolution", arXiv, 2024
 
-[arXiv] [supplementary material] [visual results]
+[[arXiv](https://arxiv.org/abs/2411.17106)] [supplementary material] [visual results]
 
 #### 🔥🔥🔥 News
 
@@ -71,7 +71,7 @@ If you find the code helpful in your resarch or work, please cite the following 
 @article{zhu2024passionsr,
   title={PassionSR: Post-Training Quantization  with Adaptive Scale in One-Step Diffusion based Image Super-Resolution},
   author={Libo Zhu, Jianze Li and Haotong Qin, Yulun Zhang and Yong Guo, Xiaokang Yang},
-  journal={arXiv preprint arXiv:2303.06373},
+  journal={arXiv preprint arXiv:2411.17106},
   year={2024}
 }
 ```
