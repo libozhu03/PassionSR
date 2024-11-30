@@ -1,10 +1,10 @@
 <div align="center">
-<p align="center"> <img src="figs/Passion_compress_256.jpg" width="200px"> </p>
+<p align="center"> <img src="/data/user/labor/PassionSR/figs/Passion_title_compressed.png" width="200px"> </p>
 </div>
 
 # PassionSR: Post-Training Quantization with Adaptive Scale in One-Step Diffusion based Image Super-Resolution
 
-[LiBo Zhu](https://github.com/LiBoZhu030073), [Jianze Li](https://github.com/JianzeLi-114), [Haotong Qin](https://htqin.github.io/), [Yulun Zhang](http://yulunzhang.com/), [Yong Guo](https://www.guoyongcs.com/) and [Xiaokang Yang](https://scholar.google.com/citations?user=yDEavdMAAAAJ), "PassionSR: Post-Training Quantization with Adaptive Scale in One-Step Diffusion based Image Super-Resolution", arXiv, 2024
+[LiBo Zhu](https://github.com/LiBoZhu030073), [Jianze Li](https://github.com/JianzeLi-114), [Haotong Qin](https://htqin.github.io/), [Wenbo Li](https://fenglinglwb.github.io/), [Yulun Zhang](http://yulunzhang.com/), [Yong Guo](https://www.guoyongcs.com/) and [Xiaokang Yang](https://scholar.google.com/citations?user=yDEavdMAAAAJ), "PassionSR: Post-Training Quantization with Adaptive Scale in One-Step Diffusion based Image Super-Resolution", arXiv, 2024
 
 [[arXiv](https://arxiv.org/abs/2411.17106)] [supplementary material] [visual results]
 
@@ -70,7 +70,7 @@ If you find the code helpful in your resarch or work, please cite the following 
 ```
 @article{zhu2024passionsr,
   title={PassionSR: Post-Training Quantization  with Adaptive Scale in One-Step Diffusion based Image Super-Resolution},
-  author={Libo Zhu, Jianze Li and Haotong Qin, Yulun Zhang and Yong Guo, Xiaokang Yang},
+  author={Libo Zhu, Jianze Li, Haotong Qin, Wenbo Li, Yulun Zhang, Yong Guo and Xiaokang Yang},
   journal={arXiv preprint arXiv:2411.17106},
   year={2024}
 }
