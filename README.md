@@ -256,11 +256,11 @@ quantize_config:
 ```
 
 ## 📦 Measure
-
+Evaluate model performance by comparing super-resolved outputs against high-resolution ground truth images:
 ```bash
 CUDA_VISIBLE_DEVICES="0" python measure.py -i YOUR_IMAGE_PATH -r HR_IMAGE_PATH
 ```
-
+This script computes the image quality metrics presented in paper to assess the effectiveness of quantized inference.
 
 ---
 
