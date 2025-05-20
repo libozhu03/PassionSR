@@ -29,6 +29,7 @@
 - [📦 Download Pretrained Models](#-download-pretrained-models)
 - [🏋️ Training](#-training)
 - [🧪 Inference](#-inference)
+- [📦 Measure](#-measure)
 - [📌 Citation](#-citation)
 
 ---
@@ -84,78 +85,6 @@ Detailed results can be downloaded at [OneDrive](https://sjtueducn-my.sharepoint
   <img width="900" src="asserts/figs/visual_UNet_Vae.png">
 </p>
 </details>
-
-
-<!-- ---
-
-## 📁 Project Structure
-
-<details>
-<summary>Click to expand directory tree and method files</summary>
-
-```bash
-PassionSR
-├── asserts/
-├── criterions/
-├── data/
-│   ├── cali_dataset/
-│   ├── DIV2K -> /data/dataset/SR/DIV2K/
-│   ├── DRealSR -> /data/dataset/SR/DRealSR/
-│   └── RealSR -> /data/dataset/SR/RealSR/
-├── data_construct.py
-├── environment.yml
-├── hf-models/
-│   ├── ldm_Config/
-│   ├── osediff.pkl
-│   ├── sd21/
-├── inference_single.py
-├── ldm/
-│   ├── lora/
-│   ├── models/
-│   ├── modules/
-│   └── util.py
-├── models/
-│   ├── autoencoder_kl.py
-│   └── unet_2d_condition.py
-├── my_utils/
-│   ├── devices.py
-│   ├── vaehook.py
-│   └── wavelet_color_fix.py
-├── preset/
-│   ├── data_construct.py
-│   ├── datasets/
-│   └── models/
-├── ptq_quantize_single.py
-├── quantization/
-│   ├── apply_quant_ldm.py
-│   ├── load_quant.py
-│   ├── methods.py
-│   └── saw/
-├── ram/
-├── requirements.txt
-├── scripts/
-│   ├── data_construct/
-│   ├── inference/
-│   ├── measure/
-│   └── PTQ/
-└── README.md
-````
-
-### 📦 `quantization/saw/` — Method Modules
-
-```bash
-saw/
-├── ablation.py         # Ablation experiments
-├── cali_UV.py          # Joint calibration: scale + x_min/x_max
-├── quant_block.py      # Quantized transformer blocks
-├── quant_config.py     # Central quantization config
-├── quant_layer.py      # Basic quantizer class
-├── quant_model.py      # Full model quantization entry
-├── saw_cali_sep.py     # Separate calibration
-└── saw_layer.py        # Quantized layers
-```
-
-</details> -->
 
 ---
 
@@ -271,7 +200,8 @@ CUDA_VISIBLE_DEVICES="0" python inference_single.py --config config_path
 device: cuda:0
 out_dir: results/quantize/saw_sep/U/W8A8 # output path
 
-dataset: DIV2K_val # ["DIV2K_val", "RealSR", "DRealSR"] # dataset to inference
+# dataset to inference, set detailed dataset path in preset/data_construct.py
+dataset: DIV2K_val # ["DIV2K_val", "RealSR", "DRealSR"] 
 
 basic_config:
   seed: 42
@@ -290,10 +220,10 @@ basic_config:
 
 # tile setting
 tile_config:
-  vae_decoder_tiled_size: 224   # 224
-  vae_encoder_tiled_size: 1024  # 2048
-  latent_tiled_size: 64   # 96
-  latent_tiled_overlap: 32  # 32
+  vae_decoder_tiled_size: 224 
+  vae_encoder_tiled_size: 1024
+  latent_tiled_size: 64 
+  latent_tiled_overlap: 32
 
 # quantize config
 quantize_config:
@@ -316,13 +246,10 @@ quantize_config:
 
 ```
 
-## Measure
+## 📦 Measure
 
 ```bash
-CUDA_VISIBLE_DEVICES="0" \
-python measure.py \
-    -i YOUR_Image_PATH \
-    -r HR_IMAGE_PATH
+CUDA_VISIBLE_DEVICES="0" python measure.py -i YOUR_IMAGE_PATH -r HR_IMAGE_PATH
 ```
 
 
