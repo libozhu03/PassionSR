@@ -27,11 +27,6 @@ class QuantizeModel_config():
         self.layer_type = quantize_config["layer_type"] # 2Dquant or normal_quant
         if "s_alpha" in quantize_config.keys():
             self.s_alpha = quantize_config["s_alpha"]
-        if "use_lora" in quantize_config.keys():
-            self.use_lora = quantize_config["use_lora"]
-            self.lora_rank = quantize_config["lora_rank"]
-        else:
-            self.use_lora = False
 
         weight_config = {'user': 'weight'}
         act_config = {'user': 'act'}

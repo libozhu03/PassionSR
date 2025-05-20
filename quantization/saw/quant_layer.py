@@ -6,6 +6,44 @@ import torch.nn.functional as F
 from torch.autograd import Function
 
 class Basic2DquantLayer(nn.Module):
+    """
+    A basic 2D quantization layer for PyTorch models.
+    This layer supports both symmetric and asymmetric quantization, with configurable quantization bits,
+    signed/unsigned quantization, and optional channel-wise quantization for weights. It maintains running
+    statistics for activation quantization and supports initialization and momentum-based updates of quantization
+    parameters.
+    Args:
+        quantize_config (Quantize_config): Configuration object specifying quantization parameters such as
+            number of bits, signed/unsigned, symmetric/asymmetric, and user type ("weight" or "activation").
+        delta (float, optional): Initial quantization scale (step size). Default is 1.
+        zero_point (float, optional): Initial zero point for quantization. Default is 0.
+    Attributes:
+        quantize_config (Quantize_config): Stores the quantization configuration.
+        quant_bits (int): Number of bits for quantization.
+        sign (bool): Whether to use signed quantization.
+        sym (bool): Whether to use symmetric quantization.
+        delta (torch.Tensor): Quantization scale (step size).
+        zero_point (torch.Tensor): Zero point for quantization.
+        init_flag (bool): Indicates if the layer has been initialized.
+        running_stat (bool): Indicates if running statistics are being used for activation quantization.
+        x_min (nn.Parameter): Minimum value observed (per-channel or global).
+        x_max (nn.Parameter): Maximum value observed (per-channel or global).
+    Methods:
+        set_init_state(flag=True): Set the initialization flag.
+        set_running_stat(flag): Enable or disable running statistics for activation quantization.
+        forward(x): Quantize and dequantize the input tensor `x`.
+        Init_basicinfo(x): Initialize quantization parameters based on input tensor `x`.
+        init_quantization_scale(x, channel_wise=False): Initialize quantization scale and zero point.
+        get_tensor_maxmin(x, type="max"): Get per-channel or global max/min values from tensor `x`.
+        channel_wise_reshape(value, shape): Reshape per-channel statistics to match input tensor shape.
+        set_param(): Compute quantization scale (delta) and zero point based on current min/max.
+        quantize(x, delta, zero_point): Quantize input tensor `x` using given scale and zero point.
+        dequantize(x, delta, zero_point): Dequantize quantized tensor `x` using given scale and zero point.
+        act_momentum_update(x, act_range_momentum=0.95): Update running min/max statistics for activations.
+    Note:
+        - This layer assumes the existence of a custom `Round` function for STE rounding.
+        - The `Quantize_config` class must provide attributes: `quant_bits`, `sign`, `sym`, and `user`.
+    """
     def __init__(self,quantize_config: Quantize_config, delta=1, zero_point=0,):
         super().__init__()
         self.quantize_config = quantize_config
@@ -149,6 +187,39 @@ class Basic2DquantLayer(nn.Module):
         self.delta, self.zero_point = self.set_param()
 
 class BasicQuantLayer(nn.Module):
+    """
+    A basic quantization layer for neural networks, supporting both symmetric and asymmetric quantization,
+    as well as channel-wise and tensor-wise quantization. This layer can be used for quantizing weights or activations.
+    Args:
+        quantize_config (Quantize_config): Configuration object specifying quantization parameters such as
+            number of bits, signed/unsigned, symmetric/asymmetric, and user type ("weight" or "activation").
+        delta (float, optional): Initial quantization scale (step size). Default is 1.
+        zero_point (float, optional): Initial zero point for quantization. Default is 0.
+        load (bool, optional): If True, skips initialization of quantization parameters. Default is False.
+    Attributes:
+        quantize_config (Quantize_config): Stores the quantization configuration.
+        quant_bits (int): Number of bits for quantization.
+        sign (bool): Whether quantization is signed.
+        sym (bool): Whether quantization is symmetric.
+        delta (nn.Parameter): Learnable quantization scale.
+        zero_point (nn.Parameter): Learnable zero point for asymmetric quantization.
+        init_flag (bool): Indicates if the layer has been initialized.
+        running_stat (bool): If True, updates quantization range using running statistics (momentum).
+        x_min (nn.Parameter): Minimum value observed (used for scale calculation).
+        x_max (nn.Parameter): Maximum value observed (used for scale calculation).
+    Methods:
+        set_init_state(flag=True): Sets the initialization flag.
+        set_running_stat(flag): Enables or disables running statistics for activation range.
+        forward(x): Applies quantization and dequantization to the input tensor.
+        Init_basicinfo(x): Initializes quantization parameters based on input tensor statistics.
+        init_quantization_scale(x, channel_wise=False): Initializes scale and zero point, optionally channel-wise.
+        get_tensor_maxmin(x, type="max"): Computes channel-wise or tensor-wise min/max.
+        channel_wise_reshape(value, shape): Reshapes min/max values for channel-wise quantization.
+        set_param(): Updates delta and zero_point based on current min/max and quantization config.
+        quantize(x): Quantizes the input tensor.
+        dequantize(x): Dequantizes the quantized tensor.
+        act_momentum_update(x, act_range_momentum=0.95): Updates min/max using exponential moving average.
+    """
     def __init__(self, quantize_config: Quantize_config, delta=1, zero_point=0, load=False):
         super(BasicQuantLayer, self).__init__()
         self.quantize_config = quantize_config
@@ -287,7 +358,6 @@ class BasicQuantLayer(nn.Module):
 
         self.set_param()
 
-
 def round_ste(x: torch.Tensor):
     """
     Implement Straight-Through Estimator for rounding operation.
@@ -314,6 +384,40 @@ class StraightThrough(nn.Module):
         return input
 
 class QuantLayer(nn.Module):
+    """
+    A quantization wrapper layer for PyTorch modules (Conv2d, Conv1d, Linear).
+    This layer replaces the original module's forward pass with a quantized version,
+    supporting both weight and activation quantization, as well as optional channel splitting
+    for separate quantization of input/weight channels.
+    Args:
+        org_module (Union[nn.Conv2d, nn.Linear, nn.Conv1d]): The original PyTorch module to be quantized.
+        quantize_config (QuantizeModel_config): Configuration object specifying quantization parameters.
+        device (str, optional): Device to use for computation. Default is "cuda".
+    Attributes:
+        quantize_config (QuantizeModel_config): Stores quantization configuration.
+        device (str): Device for computation.
+        quant_layer_type (type): Quantizer class determined by configuration.
+        fwd_kwargs (dict): Forward function keyword arguments (stride, padding, etc.).
+        fwd_func (callable): Forward function (F.conv2d, F.conv1d, or F.linear).
+        weight (torch.Tensor): Quantized weight tensor.
+        org_weight (torch.Tensor): Original weight tensor (for dequantization or reference).
+        bias (torch.Tensor or None): Quantized bias tensor.
+        org_bias (torch.Tensor or None): Original bias tensor.
+        bias_quantizer (callable or None): Quantizer for bias.
+        use_weight_quant (bool): Whether to apply weight quantization.
+        use_act_quant (bool): Whether to apply activation quantization.
+        weight_quantizer_0 (callable): Quantizer for weights (or first split).
+        act_quantizer_0 (callable): Quantizer for activations (or first split).
+        split (bool): Whether to split channels for separate quantization.
+        weight_quantizer_1 (callable): Quantizer for second split of weights (if split enabled).
+        act_quantizer_1 (callable): Quantizer for second split of activations (if split enabled).
+        activation_function (callable): Activation function (StraightThrough).
+    Methods:
+        set_split(split): Enable or disable channel splitting for quantization.
+        forward(input): Forward pass with quantization applied to weights and activations.
+        set_quant_state(weight_quant, act_quant): Enable/disable weight and activation quantization.
+        set_running_stat(running_stat): Set running statistics mode for activation quantizers.
+    """
     def __init__(
         self,
         org_module: Union[nn.Conv2d, nn.Linear, nn.Conv1d],
@@ -355,9 +459,6 @@ class QuantLayer(nn.Module):
         self.act_quantizer_0 = self.quant_layer_type(self.quantize_config.act_config)
         self.set_split(quantize_config.split)
 
-        self.use_lora = self.quantize_config.use_lora
-        if self.use_lora:
-            self.lora_layer = LoRALayer(org_module, r=self.quantize_config.lora_rank, alpha=1.0)
         self.activation_function = StraightThrough()
 
     def set_split(self, split):
@@ -367,8 +468,6 @@ class QuantLayer(nn.Module):
             self.act_quantizer_1 = self.quant_layer_type(self.quantize_config.act_config)
 
     def forward(self, input: torch.Tensor):
-        if self.use_lora:
-            lora_out = self.lora_layer(input)
         if self.use_act_quant:
             if self.split:
                 split_divide_line = input.shape[1] // 2
@@ -394,8 +493,6 @@ class QuantLayer(nn.Module):
             weight = self.org_weight
             bias = self.org_bias
         out = self.fwd_func(input, weight, bias, **self.fwd_kwargs)
-        if self.use_lora:
-            out = out + lora_out
         out = self.activation_function(out)
 
         return out

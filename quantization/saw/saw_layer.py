@@ -8,6 +8,38 @@ from typing import Union
 import torch.nn.functional as F
 
 class saw_Conv1d_QuantLayer(QuantLayer):
+    """
+    A quantized 1D convolutional layer with scale and offset adaptation for quantization-aware training.
+
+    This layer extends a base QuantLayer to support quantization of Conv1d operations, including adaptive scaling and offsetting
+    of inputs and weights for improved quantization performance. It supports optional LoRA (Low-Rank Adaptation), activation and 
+    weight quantization, and running statistics for scale updating.
+
+    Args:
+        org_module (nn.Conv2d): The original convolutional module to be quantized.
+        quantize_config: Configuration object for quantization parameters.
+        device (str, optional): Device to place the layer parameters on. Default is "cuda".
+        s_alpha (float, optional): Exponent for scale adaptation. Default is 0.5.
+
+    Attributes:
+        quant_config: Stores the quantization configuration.
+        input_embedd: Placeholder for input embedding (if used).
+        record_flag (bool): Flag to enable input recording.
+        device (str): Device for computation.
+        scale_factor (nn.Parameter): Learnable scale factor for input normalization.
+        offset (nn.Parameter): Learnable offset for input normalization.
+        recon_flag (bool): Flag to enable reconstruction mode.
+        recon_inited (bool): Indicates if reconstruction has been initialized.
+        s_alpha (float): Exponent for scale adaptation.
+        running_stat (bool): Flag to enable running statistics for scale updating.
+
+    Methods:
+        init_scale(input): Initializes the scale factor based on input and weight statistics.
+        set_running_stat(running_stat): Sets the running statistics flag.
+        update_scale(input, update_rate=0.1): Updates the scale factor using running statistics.
+        set_record(flag): Sets the input recording flag.
+        forward(input): Forward pass with quantization, scaling, offsetting, and optional LoRA and reconstruction.
+    """
     def __init__(self,
                  org_module: nn.Conv2d,
                  quantize_config,
@@ -73,7 +105,7 @@ class saw_Conv1d_QuantLayer(QuantLayer):
         else:
             input = input
             weight = self.weight
-        # print(weight)
+
         if self.use_act_quant:
             if self.split:
                 split_divide_line = input.shape[1] // 2
@@ -111,6 +143,39 @@ class saw_Conv1d_QuantLayer(QuantLayer):
         return out
 
 class saw_Conv2d_QuantLayer(QuantLayer):
+    """
+    A quantized 2D convolutional layer with scale and offset adjustment for input reconstruction.
+
+    This layer extends a standard quantized Conv2d layer by introducing learnable scale and offset parameters
+    for each input channel, enabling input reconstruction and improved quantization performance. It supports
+    both activation and weight quantization, as well as optional input recording for analysis.
+
+    Args:
+        org_module (nn.Conv2d): The original Conv2d module to be quantized.
+        quantize_config: Configuration object for quantization parameters.
+        device (str, optional): Device to place the layer parameters on. Default is "cuda".
+        s_alpha (float, optional): Exponent for scale factor calculation. Default is 0.5.
+
+    Attributes:
+        quant_config: Stores the quantization configuration.
+        input_embedd: Stores recorded input embeddings if recording is enabled.
+        record_flag (bool): Flag to enable/disable input recording.
+        device (str): Device for computation.
+        scale_factor (nn.Parameter): Learnable scale factor for each input channel.
+        offset (nn.Parameter): Learnable offset for each input channel.
+        recon_flag (bool): Flag to enable/disable input reconstruction.
+        recon_inited (bool): Indicates if reconstruction parameters have been initialized.
+        s_alpha (float): Exponent used in scale factor calculation.
+        running_stat (bool): Flag to enable/disable running statistics for scale update.
+
+    Methods:
+        init_scale(input): Initializes the scale factor based on input and weight statistics.
+        set_running_stat(running_stat): Sets the running statistics flag.
+        update_scale(input, update_rate=0.1): Updates the scale factor using running statistics.
+        set_record(flag): Enables or disables input recording.
+        forward(input): Forward pass with quantization, optional reconstruction, and activation.
+        record_x(x): Records input embeddings for analysis.
+    """
     def __init__(self,
                 org_module: nn.Conv2d,
                 quantize_config,
@@ -213,6 +278,40 @@ class saw_Conv2d_QuantLayer(QuantLayer):
             self.input_embedd = torch.cat((self.input_embedd, x_clone), dim=0)
 
 class saw_Linear_QuantLayer(QuantLayer):
+    """
+    A quantized linear layer with scale and offset adaptation for weight and activation quantization.
+
+    This layer wraps a standard nn.Linear module and applies quantization to its weights and activations,
+    supporting adaptive scaling and offset for improved quantization accuracy. It provides mechanisms for
+    recording input embeddings, updating scale factors based on running statistics, and reconstructing outputs
+    with learned scale and offset parameters.
+
+    Args:
+        org_module (nn.Linear): The original linear module to be quantized.
+        quantize_config (QuantizeModel_config): Configuration object specifying quantization parameters.
+        device (str, optional): Device to place the quantized parameters on. Default is "cuda".
+        s_alpha (float, optional): Exponent for scale factor computation. Default is 0.5.
+
+    Attributes:
+        quant_config: Stores the quantization configuration.
+        input_embedd: Buffer for recorded input embeddings.
+        record_flag (bool): Flag to enable input recording.
+        device (str): Device for parameters.
+        scale_factor (nn.Parameter): Learnable scale factor for input normalization.
+        offset (nn.Parameter): Learnable offset for input normalization.
+        recon_flag (bool): Flag to enable reconstruction mode.
+        recon_inited (bool): Indicates if reconstruction parameters are initialized.
+        s_alpha (float): Exponent for scale factor computation.
+        running_stat (bool): Flag to enable running statistics for scale update.
+
+    Methods:
+        init_scale(input): Initializes the scale factor based on input and weight statistics.
+        set_running_stat(running_stat): Sets the running statistics flag.
+        update_scale(input, update_rate): Updates the scale factor using running statistics.
+        set_record(flag): Enables or disables input recording.
+        forward(input): Forward pass with quantization, scaling, and optional reconstruction.
+        record_x(x): Records input embeddings for analysis or calibration.
+    """
     def __init__(self,
                 org_module: nn.Linear,
                 quantize_config : QuantizeModel_config,
@@ -315,7 +414,6 @@ class saw_Linear_QuantLayer(QuantLayer):
             self.input_embedd = x_clone
         else:
             self.input_embedd = torch.cat((self.input_embedd, x_clone), dim=0)
-
 
 class saw_Loss(nn.Module):
     def __init__(self, alpha=0.5):

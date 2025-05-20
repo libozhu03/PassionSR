@@ -20,6 +20,23 @@ vae_first_layer_name = ["quant_conv", "post_quant_conv", "encoder.conv_out", "de
 first_layer_name = unet_first_layer_name + vae_first_layer_name
 
 class QuantWrapper(nn.Module):
+    """
+    A wrapper module for quantizing neural network models.
+    This class wraps a given PyTorch model with quantization logic using the QuantModel class.
+    It allows for easy integration of quantization into existing models, and delegates attribute
+    access to the underlying quantized model or the original model as needed.
+    Args:
+        model (nn.Module): The PyTorch model to be quantized.
+        quant_config: Configuration object or dictionary specifying quantization parameters.
+        device (str, optional): Device to place the quantized model on. Defaults to "cuda".
+        exclude (optional): List or set of module names to exclude from quantization.
+    Methods:
+        forward(x, timesteps=None, encoder_hidden_states=None):
+            Performs a forward pass through the quantized model.
+        __getattr__(name):
+            Delegates attribute access to the quantized model or the original model if the attribute
+            is not found in the wrapper itself.
+    """
     def __init__(self, model: nn.Module, quant_config, device="cuda", exclude=None):
         nn.Module.__init__(self)
         self.model = QuantModel(model, quant_config, device, exclude)
@@ -40,6 +57,71 @@ def contains_any(input_string: str, string_list: list) -> bool:
     return any(substring in input_string for substring in string_list)
 
 class QuantModel(nn.Module):
+    """
+    QuantModel is a wrapper class for quantizing neural network models in PyTorch. It recursively replaces standard layers 
+    (e.g., Conv2d, Conv1d, Linear) with their quantized counterparts and manages quantization-specific configurations and states.
+
+    Args:
+        model (nn.Module): The original PyTorch model to be quantized.
+        quant_config (QuantizeModel_config): Configuration object specifying quantization parameters.
+        device (str, optional): Device to place the quantized model on. Defaults to "cuda".
+        exclude (str, optional): Substring to exclude certain layers from quantization. Defaults to None.
+
+    Attributes:
+        model (nn.Module): The quantized model.
+        device (str): Device for computation.
+        image_size (Any): Image size attribute from the original model, if present.
+        in_channels (Any): Input channels attribute from the original model, if present.
+        specials (dict): Dictionary mapping special modules to their quantized versions.
+        exclude (str or None): Exclusion substring for layers.
+        quant_config (QuantizeModel_config): Quantization configuration.
+        first_layer_quant_config (QuantizeModel_config): Quantization config for first layers (usually higher precision).
+        quant_layer_type (type): The quantized layer type.
+
+    Methods:
+        quant_module_refactor(module, quant_config, module_name="model"):
+            Recursively replaces standard layers with quantized layers.
+
+        quant_block_refactor(module, quant_config):
+            Recursively replaces special blocks (e.g., attention blocks) with quantized versions.
+
+        set_quant_state(weight_quant=False, act_quant=False):
+            Sets the quantization state (enable/disable) for weights and activations in all quantized layers.
+
+        forward(x, timesteps=None, context=None):
+            Forward pass through the quantized model.
+
+        set_running_stat(running_stat, sm_only=False):
+            Sets the running statistics flag for quantization layers, optionally only for softmax-related stats.
+
+        set_record(record):
+            Enables or disables recording of quantization statistics in quantized linear layers.
+
+        get_all_norm_param():
+            Returns a list of all normalization layer parameters (weights and biases) that require gradients.
+
+        get_all_scale_factor(pick=None):
+            Returns a list of all scale factors and offsets in quantized layers, optionally filtered by encoder/decoder.
+
+        get_all_quant_param(user="all", pick=None):
+            Returns a list of all quantization parameters (e.g., delta, zero_point, x_max, x_min), optionally filtered by user or encoder/decoder.
+
+        get_all_lora_param():
+            Returns a list of all LoRA (Low-Rank Adaptation) parameters in quantized layers that use LoRA.
+
+        set_all_init(flag, user="all"):
+            Sets the initialization state for all quantization parameters, optionally filtered by user.
+
+        set_all_recon_init(flag):
+            Sets the reconstruction initialization flag for all quantized layers and attention blocks.
+
+        set_all_recon(flag):
+            Sets the reconstruction flag for all quantized layers and attention blocks.
+
+    Note:
+        - This class assumes the existence of several custom quantization and attention modules (e.g., saw_Linear_QuantLayer, QuantAttnBlock).
+        - The quantization process is highly customizable via the quant_config and supports selective quantization and LoRA integration.
+    """
     def __init__(self, model: nn.Module, quant_config: QuantizeModel_config, device="cuda", exclude=None):
         super().__init__()
         self.model = model
