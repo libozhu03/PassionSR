@@ -193,7 +193,7 @@ Place them in `./weights/`.
 ## 🏋️ Training
 
 ```bash
-python ptq_quantize_single.py --config_file config_path
+CUDA_VISIBLE_DEVICES="0" python ptq_quantize_single.py --config_file config_path
 ```
 
 ### 🔧 Configuration Example:
@@ -262,7 +262,7 @@ quantize_config:
 ## 🧪 Inference
 
 ```bash
-python inference_single.py --config config_path
+CUDA_VISIBLE_DEVICES="0" python inference_single.py --config config_path
 ```
 
 ### 🔧 Configuration Example:
