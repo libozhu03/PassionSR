@@ -78,7 +78,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_image', '-i', type=str, default='results/test_dataset')
     parser.add_argument('--reference_image', '-r', type=str, default='preset/datasets/test_dataset/reference')
-    parser.add_argument('--device', type=str, default='cuda')
+    parser.add_argument('--device', type=str, default='cuda:0')
     # parser.add_argument('--output', '-o', type=str, default='results/test_dataset/measure')
     args = parser.parse_args()
     args.output = os.path.join(args.input_image, 'measure')

@@ -316,6 +316,16 @@ quantize_config:
 
 ```
 
+## Measure
+
+```bash
+CUDA_VISIBLE_DEVICES="0" \
+python measure.py \
+    -i YOUR_Image_PATH \
+    -r HR_IMAGE_PATH
+```
+
+
 ---
 
 ## 📌 Citation
