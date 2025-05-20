@@ -1,0 +1,46 @@
+# device setting
+device: cuda:0 # useless
+out_dir: results/quantize/saw_sep/U/W6A6
+
+dataset: DRealSR # ["DIV2K_val", "RealSR", "DRealSR"]
+
+basic_config:
+  seed: 42
+  precision: "autocast" # ["full", "autocast"]
+  process_size: 512
+  config: hf-models/ldm_Config/stable-diffusion/intel/v2-inference-v-fp32.yaml
+  ckpt: hf-models/sd21/v2-1_512-ema-pruned.ckpt
+  lora_weights_path: preset/models/osediff.ckpt
+  pretrained_model_name_or_path: hf-models/sd21
+  context_embedding_path: preset/models/empty_context_embedding.pt
+  upscale: 4
+  align_method: adain # ['wavelet', 'adain', 'nofix']
+  merge_lora: True
+
+# scale: 9.0
+
+# tile setting
+tile_config:
+  vae_decoder_tiled_size: 224   # 224
+  vae_encoder_tiled_size: 1024  # 2048
+  latent_tiled_size: 64   # 96
+  latent_tiled_overlap: 32  # 32
+
+# quantize config
+quantize_config:
+  quantize: True
+  only_Unet: True
+  Unet:
+    quant_ckpt: weights/U_W6A6/PTQ/unet_ckpt_merge_saw_sep.pth
+    quantype: PTQ
+    method: saw_sep
+    only_weight: False
+    weight_quant_bits: 6
+    weight_sym: False
+    weight_sign: False
+    act_quant_bits: 6
+    act_sign: False
+    act_sym: False
+    split: True
+    layer_type: 2Dquant
+    s_alpha: 0.3

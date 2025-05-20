@@ -1,0 +1,57 @@
+# device setting
+device: "cuda:0"
+
+cali_img_path: "data/cali_dataset"
+
+basic_config:
+  seed: 42
+  precision: "autocast"  # "full", "autocast"
+  upscale: 4
+  process_size: 512
+  scale: 9.0
+  lora_weights_path: preset/models/osediff.ckpt
+  pretrained_model_name_or_path: hf-models/sd21
+  config: hf-models/ldm_Config/stable-diffusion/intel/v2-inference-v-fp32.yaml
+  ckpt: hf-models/sd21/v2-1_512-ema-pruned.ckpt
+  context_embedding_path: preset/models/empty_context_embedding.pt
+  align_method: "nofix"  # 'wavelet', 'adain', 'nofix'
+  merge_lora: True
+
+quantize_config:
+  quantize: True
+  only_Unet: True
+  Unet:
+    quantype: PTQ
+    method: saw_sep
+    only_weight: False
+    weight_quant_bits: 6
+    weight_sym: False
+    weight_sign: False
+    act_quant_bits: 6
+    act_sign: False
+    act_sym: False
+    split: True
+    layer_type: 2Dquant
+    s_alpha: 0.3
+  # Vae:
+  #   quantype: PTQ
+  #   method: saw
+  #   only_weight: False
+  #   weight_quant_bits: 6
+  #   weight_sym: False
+  #   weight_sign: False
+  #   act_quant_bits: 6
+  #   act_sign: False
+  #   act_sym: False
+  #   split: True
+  #   layer_type: 2Dquant
+  output_modelpath: results/quantize/saw_sep/U/W6A6
+  cali_batch_size: 4
+  cali_learning_rate: 1e-5
+  cali_epochs: 2
+  loss_function: mse
+  scheduler:
+    milestones: [1]
+    gamma: 0.1
+  save_interval: 2
+
