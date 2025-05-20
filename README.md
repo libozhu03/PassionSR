@@ -10,7 +10,7 @@
 [LiBo Zhu](https://github.com/LiBoZhu030073), [Jianze Li](https://github.com/JianzeLi-114), [Haotong Qin](https://htqin.github.io/), [Wenbo Li](https://fenglinglwb.github.io/), [Yulun Zhang](http://yulunzhang.com/), [Yong Guo](https://www.guoyongcs.com/) and [Xiaokang Yang](https://scholar.google.com/citations?user=yDEavdMAAAAJ)  
 **"PassionSR: Post-Training Quantization with Adaptive Scale in One-Step Diffusion based Image Super-Resolution", CVPR 2025**
 
-[![page](https://img.shields.io/badge/Project-Page-blue?logo=github)](https://github.com/libozhu03/PassionSR)
+[![page](https://img.shields.io/badge/Project-Page-blue?logo=github)](https://labor555.github.io/PassionSR_Web/)
 [![arXiv](https://img.shields.io/badge/Paper-arXiv-red?logo=arxiv)](https://arxiv.org/abs/2411.17106)
 [![supp](https://img.shields.io/badge/Supplementary_material-Paper-orange.svg)](https://github.com/libozhu03/PassionSR/releases/download/v.0.0.1/supp.pdf)
 [![releases](https://img.shields.io/github/downloads/libozhu03/PassionSR/total.svg)](https://github.com/libozhu03/PassionSR/releases)
@@ -30,6 +30,7 @@
 - [🏋️ Training](#-training)
 - [🧪 Inference](#-inference)
 - [📦 Measure](#-measure)
+- [📝 Acknowledgements](#-acknowledgements)
 - [📌 Citation](#-citation)
 
 ---
@@ -256,7 +257,7 @@ quantize_config:
 ```
 
 ## 📦 Measure
-Evaluate model performance by comparing super-resolved outputs against high-resolution ground truth images:
+Evaluate model performance by comparing super-resolution outputs against high-resolution ground truth images:
 ```bash
 CUDA_VISIBLE_DEVICES="0" python measure.py -i YOUR_IMAGE_PATH -r HR_IMAGE_PATH
 ```
@@ -264,11 +265,18 @@ This script computes the image quality metrics presented in paper to assess the 
 
 ---
 
+## 📝 Acknowledgements
+We would like to thank the developers and maintainers of [Stable Diffusion](https://github.com/Stability-AI/StableDiffusion), [Diffusers](https://github.com/huggingface/diffusers), and [OSEDiff](https://github.com/cswry/OSEDiff) for their open-source contributions, which have greatly facilitated our research and development.
+
+This project is supported in part by the Shanghai Jiao Tong University Artificial Intelligence Institute.
+
+We also thank our collaborators and contributors for their valuable feedback and technical discussions.
+
 ## 📌 Citation
 
 ```bibtex
 @inproceedings{zhu2025passionsr,
-  title={PassionSR: Post-Training Quantization with Adaptive Scale in One-Step Diffusion based Image Super-Resolution},
+  title={{PassionSR}: Post-Training Quantization with Adaptive Scale in One-Step Diffusion based Image Super-Resolution},
   author={Zhu, Libo and Li, Jianze and Qin, Haotong and Zhang, Yulun and Guo, Yong and Yang, Xiaokang},
   booktitle={CVPR},
   year={2025}
