@@ -89,6 +89,7 @@ Detailed results can be downloaded at [OneDrive](https://sjtueducn-my.sharepoint
 ---
 
 ## ⚙️ Installation
+To set up the environment, clone the repository and create a new Conda environment using the provided dependencies.
 
 ```bash
 git clone https://github.com/libozhu03/PassionSR.git
@@ -109,6 +110,7 @@ Tested with:
 ---
 
 ## 📦 Download Pretrained Models
+We provide pretrained weights for PassionSR under different settings.
 
 | Model     | Information     | Link                                |
 | --------- | --------------- | ----------------------------------- |
@@ -120,12 +122,16 @@ Place them in `./weights/`.
 ---
 
 ## 🏋️ Training
+Run the command below to perform Post-Training Quantization (PTQ) using your desired configuration file.
+The script loads pretrained Stable Diffusion and OSEDiff weights, and applies quantization to selected components (e.g., UNet and/or VAE).
 
 ```bash
 CUDA_VISIBLE_DEVICES="0" python ptq_quantize_single.py --config_file config_path
 ```
 
 ### 🔧 Configuration Example:
+The example YAML config demonstrates typical usage and can be adapted for different settings.
+
 ```yaml
 # device setting
 device: "cuda:0"
@@ -162,19 +168,20 @@ quantize_config:
     split: True # half split for activation
     layer_type: 2Dquant # two quantizer types (2Dquant and normal_quant)
     s_alpha: 0.3 # scale factor intialization exponents
-  # Vae:
-  #   quantype: PTQ
-  #   method: saw
-  #   only_weight: False
-  #   weight_quant_bits: 8
-  #   weight_sym: False
-  #   weight_sign: False
-  #   act_quant_bits: 8
-  #   act_sign: False
-  #   act_sym: False
-  #   split: True
-  #   layer_type: 2Dquant
-  output_modelpath: results/quantize/saw_sep/U/W8A8 # output path
+  Vae:
+    quantype: PTQ
+    method: saw
+    only_weight: False
+    weight_quant_bits: 8
+    weight_sym: False
+    weight_sign: False
+    act_quant_bits: 8
+    act_sign: False
+    act_sym: False
+    split: True
+    layer_type: 2Dquant
+  output_modelpath: results/quantize/saw_sep/UV/W8A8 # output path
+  # calibration settings
   cali_batch_size: 4
   cali_learning_rate: 1e-5
   cali_epochs: 2
@@ -189,6 +196,8 @@ quantize_config:
 ---
 
 ## 🧪 Inference
+Use the following command to run inference with quantized models.
+The pipeline supports various datasets (e.g., DIV2K_val, RealSR, DRealSR) and includes options for tiling, LoRA merging.
 
 ```bash
 CUDA_VISIBLE_DEVICES="0" python inference_single.py --config config_path
