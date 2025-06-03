@@ -64,7 +64,7 @@ def load_Quantmodel(model, quant_config, device):
             # vae_q.set_all_recon(False)
             vae_q.set_all_recon_init(True)
             vae_q.eval()
-            return unet_q, vae_q.model
+            return unet_q, vae_q
     else:
         raise ValueError(f"Quantization method {quant_method} is not supported")
     

@@ -44,6 +44,7 @@ def saw_cali_U_sep(whole_model, quant_config, cali_data, merge, device, ):
 
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     logdir = os.path.join(quant_config["output_modelpath"], 'log', "wb", current_time)
+    os.makedirs(logdir, exist_ok=True)
     wandb.init(project="esaw_U", name=current_time, dir=logdir, config=quant_config)
 
     logdir = os.path.join(quant_config["output_modelpath"], 'log', "tb", current_time)
@@ -256,6 +257,7 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
 
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     logdir = os.path.join(quant_config["output_modelpath"], 'log', "wb", current_time)
+    os.makedirs(logdir, exist_ok=True)
     wandb.init(project="esaw_UV", name=current_time, dir=logdir, config=quant_config)
     logdir = os.path.join(quant_config["output_modelpath"], 'log', "tb", current_time)
     writer = SummaryWriter(logdir)
@@ -287,7 +289,7 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             end = min((i + 1) * batch_size, cali_xs.size(0))
             lq = cali_xs[inds[i * batch_size:end]]
             lq = lq * 2 - 1.0
-            latent_out = whole_model.vae.model.encode(lq).sample() * whole_model.encode_scaling_factor
+            latent_out = whole_model.vae.encode(lq).sample() * whole_model.encode_scaling_factor
             lq_latent = cali_ls[inds[i * batch_size:end]]
             loss = criterion(latent_out, lq_latent)
             loss.backward()
@@ -327,7 +329,7 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             end = min((i + 1) * batch_size, cali_xs.size(0))
             lq = cali_xs[inds[i * batch_size:end]]
             lq = lq * 2 - 1.0
-            latent_out = whole_model.vae.model.encode(lq).sample() * whole_model.encode_scaling_factor
+            latent_out = whole_model.vae.encode(lq).sample() * whole_model.encode_scaling_factor
             lq_latent = cali_ls[inds[i * batch_size:end]]
             loss = criterion(latent_out, lq_latent)
             loss.backward()
@@ -350,7 +352,7 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
                         unit="batch", colour="green", position=0):
             end = min((i + 1) * batch_size, cali_xs.size(0))
             lq = cali_xs[i * batch_size:end] * 2 - 1.0
-            lq_latent = whole_model.vae.model.encode(lq).sample() * whole_model.encode_scaling_factor
+            lq_latent = whole_model.vae.encode(lq).sample() * whole_model.encode_scaling_factor
             cali_ql_list.append(lq_latent)
     cali_qls = torch.cat(cali_ql_list, dim=0)
 
@@ -547,7 +549,7 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             end = min((i + 1) * batch_size, cali_xs.size(0))
             ind = inds[i * batch_size:end]
             hl = cali_hls[ind]
-            output_image =  whole_model.vae.model.decode(hl.to(whole_model.weight_dtype)/ whole_model.decode_scaling_factor) 
+            output_image =  whole_model.vae.decode(hl.to(whole_model.weight_dtype)/ whole_model.decode_scaling_factor) 
             output_image = output_image * 0.5 + 0.5
             gt_image = cali_gs[ind]
             loss = criterion(output_image, gt_image)
@@ -599,7 +601,7 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             end = min((i + 1) * batch_size, cali_xs.size(0))
             ind = inds[i * batch_size:end]
             hl = cali_hls[ind]
-            output_image =  whole_model.vae.model.decode(hl.to(whole_model.weight_dtype)/ whole_model.decode_scaling_factor) 
+            output_image =  whole_model.vae.decode(hl.to(whole_model.weight_dtype)/ whole_model.decode_scaling_factor) 
             output_image = output_image * 0.5 + 0.5
             gt_image = cali_gs[ind]
             loss = criterion(output_image, gt_image)

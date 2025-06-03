@@ -1,8 +1,8 @@
 import torch.nn as nn
 from .quant_config import Quantize_config, QuantizeModel_config
 from .quant_block import get_specials, BaseQuantBlock
-from .quant_block import QuantBasicTransformerBlock, QuantResBlock
-from .quant_block import QuantQKMatMul, QuantSMVMatMul, QuantBasicTransformerBlock, QuantAttnBlock
+from .quant_block import QuantBasicTransformerBlock
+from .quant_block import QuantBasicTransformerBlock, QuantAttnBlock
 from .quant_layer import QuantLayer, StraightThrough, BasicQuantLayer, Basic2DquantLayer, get_layer_type
 from .saw_layer import saw_Linear_QuantLayer, saw_Conv1d_QuantLayer, saw_Conv2d_QuantLayer
 from ldm.modules.attention import BasicTransformerBlock

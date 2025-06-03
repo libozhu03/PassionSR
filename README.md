@@ -97,7 +97,6 @@ git clone https://github.com/libozhu03/PassionSR.git
 cd PassionSR
 conda create -n passionsr python=3.10
 conda activate passionsr
-conda install pytorch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 pytorch-cuda=12.1 -c pytorch -c nvidia
 pip install -r requirements.txt
 ```
 

@@ -48,7 +48,7 @@ def quantize_prepare(unet_q, vae_q, quant_config, device):
     if quant_method == "saw" or quant_method == "saw_sep":
         unet_config = quant_config["Unet"]
         quant_config_C = saw.QuantizeModel_config(unet_config)
-        unet_q = saw.QuantModel(unet_q, quant_config_C, device=device)
+        unet_q = saw.QuantWrapper(unet_q, quant_config_C, device=device)
         unet_q.set_quant_state(weight_quant=True, act_quant=True)
         save_model_to_txt(unet_q, os.path.join(quant_config["output_modelpath"], "unet_q.txt"))
         if quant_config["only_Unet"]:
@@ -56,7 +56,7 @@ def quantize_prepare(unet_q, vae_q, quant_config, device):
         else:
             vae_config = quant_config["Vae"]
             quant_config_C = saw.QuantizeModel_config(vae_config)
-            vae_q = saw.QuantModel(vae_q, quant_config_C, device=device)
+            vae_q = saw.QuantWrapper(vae_q, quant_config_C, device=device)
             vae_q.set_quant_state(weight_quant=True, act_quant=True)
             save_model_to_txt(vae_q, os.path.join(quant_config["output_modelpath"], "vae_q.txt"))
         return unet_q, vae_q
@@ -72,13 +72,9 @@ def PTQ(unet_q, vae_q, quant_config, cali_data, merge, device, whole_model=None)
             # whole_model = saw.saw_cali_U(whole_model, quant_config, cali_data, merge, device)
             if quant_method == "saw_sep":
                 whole_model = saw.saw_cali_U_sep(whole_model, quant_config, cali_data, merge, device)
-            else:
-                whole_model = saw.saw_cali_U(whole_model, quant_config, cali_data, merge, device)
         else:
             if quant_method == "saw_sep":
                 whole_model = saw.saw_cali_UV_sep(unet_q, vae_q, whole_model, quant_config, cali_data, merge, device)
-            else:
-                whole_model = saw.saw_cali_UV(unet_q, vae_q, whole_model, quant_config, cali_data, merge, device)
         return whole_model
     else:
         raise NotImplementedError(f"Quantization method {quant_method} not implemented")

@@ -68,6 +68,12 @@ class OSEDiff_test(torch.nn.Module):
                 self.unet = load_Quantmodel(self.unet, self.quant_config, self.device)
             else:
                 self.unet, self.vae = load_Quantmodel((self.unet, self.vae), self.quant_config, self.device)
+        self.unet, self.vae = self.unet.to(self.device), self.vae.to(self.device)      
+        self.preheat()
+
+    def preheat(self,):
+        input = torch.randn(1, 3, 512, 512, device=self.device, dtype=self.weight_dtype)
+        _ = self.forward(input)
 
     def load_context_embedding(self, opt):
         empty_context_embedding = torch.load(opt['basic_config']["context_embedding_path"]).to(self.device)
@@ -257,7 +263,7 @@ def main():
     print("Exist image names: ", '\n', exist_image_names)
 
     image_names = [img for img in image_names if os.path.basename(img) not in exist_image_names]
-    image_names.insert(0, image_names[0])
+    
     for image_name in tqdm(image_names, desc="Processing", unit="picture", colour="green"):
         if os.path.basename(image_name) in exist_image_names:
             print(f'Skipping {os.path.basename(image_name)} as it already exists in the output directory.')

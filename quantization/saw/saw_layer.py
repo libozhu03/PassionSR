@@ -87,8 +87,6 @@ class saw_Conv1d_QuantLayer(QuantLayer):
         self.record_flag = flag
 
     def forward(self, input):
-        if self.use_lora:
-            lora_out = self.lora_layer(input)
         if self.record_flag:
             self.record_x(input)
         if self.recon_flag:
@@ -135,8 +133,6 @@ class saw_Conv1d_QuantLayer(QuantLayer):
             weight = weight
             bias = self.org_bias
         out = self.fwd_func(input, weight, bias, **self.fwd_kwargs)
-        if self.use_lora:
-            out = out + lora_out
         if self.recon_flag:
             out = out + recond_bias
         out = self.activation_function(out)
@@ -369,7 +365,7 @@ class saw_Linear_QuantLayer(QuantLayer):
             elif self.running_stat:
                 self.update_scale(input)
             offset = self.offset.expand_as(input)
-            input = (input + offset) / self.scale_factor
+            input = (input - offset) / self.scale_factor
             recond_bias = self.weight @ self.offset.T
             recond_bias = recond_bias.squeeze(1)
             weight = self.weight * self.scale_factor
