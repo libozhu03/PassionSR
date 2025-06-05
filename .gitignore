@@ -8,6 +8,7 @@ data/DIV2K-crop
 save_version
 hf-models/sd21
 reset
+weights
 results
 results_save
 lightning_logs
