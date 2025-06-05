@@ -31,8 +31,8 @@ quantize_config:
   quantize: True
   only_Unet: True
   Unet:
-    # quant_ckpt: weights/U_W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
-    quant_ckpt: results/quantize/saw_sep/U/W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
+    quant_ckpt: weights/U_W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
+    # quant_ckpt: results/quantize/saw_sep/U/W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
     quantype: PTQ
     method: saw_sep
     only_weight: False

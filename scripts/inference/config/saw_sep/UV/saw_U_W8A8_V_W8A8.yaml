@@ -31,8 +31,8 @@ quantize_config:
   quantize: True
   only_Unet: False
   Unet:
-    # quant_ckpt: weights/UV_W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
-    quant_ckpt: results/quantize/saw_sep/UV/U_W8A8_V_W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
+    quant_ckpt: weights/UV_W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
+    # quant_ckpt: results/quantize/saw_sep/UV/U_W8A8_V_W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
     quantype: PTQ
     method: saw
     only_weight: False
@@ -46,8 +46,8 @@ quantize_config:
     layer_type: 2Dquant
     s_alpha: 0.3
   Vae:
-    # quant_ckpt: weights/UV_W8A8/PTQ/vae_ckpt_merge_saw_sep.pth
-    quant_ckpt: results/quantize/saw_sep/UV/U_W8A8_V_W8A8/PTQ/vae_ckpt_merge_saw_sep.pth
+    quant_ckpt: weights/UV_W8A8/PTQ/vae_ckpt_merge_saw_sep.pth
+    # quant_ckpt: results/quantize/saw_sep/UV/U_W8A8_V_W8A8/PTQ/vae_ckpt_merge_saw_sep.pth
     quantype: PTQ
     method: saw
     only_weight: False
