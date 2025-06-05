@@ -7,7 +7,6 @@ from tqdm import trange
 from pytorch_lightning import seed_everything
 from omegaconf import OmegaConf
 from PIL import Image
-import wandb
 import torch
 import torch.nn as nn
 import sys

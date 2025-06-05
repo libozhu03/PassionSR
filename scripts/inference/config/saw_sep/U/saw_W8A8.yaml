@@ -2,7 +2,7 @@
 device: cuda:0 # useless
 out_dir: results/quantize/saw_sep/U/W8A8
 
-dataset: Urban100 # ["DIV2K_val", "RealSR", "DRealSR", "Urban100"]
+dataset: DIV2K_val # ["DIV2K_val", "RealSR", "DRealSR"]
 
 basic_config:
   seed: 42
@@ -31,9 +31,10 @@ quantize_config:
   quantize: True
   only_Unet: True
   Unet:
-    quant_ckpt: weights/U_W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
+    # quant_ckpt: weights/U_W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
+    quant_ckpt: results/quantize/saw_sep/U/W8A8/PTQ/unet_ckpt_merge_saw_sep.pth
     quantype: PTQ
-    method: saw
+    method: saw_sep
     only_weight: False
     weight_quant_bits: 8
     weight_sym: False

@@ -5,7 +5,6 @@ import lpips
 import numpy as np
 from skimage.metrics import peak_signal_noise_ratio as psnr
 from skimage.metrics import structural_similarity as ssim
-from pytorch_fid import fid_score
 from torchvision import transforms
 from PIL import Image
 import re

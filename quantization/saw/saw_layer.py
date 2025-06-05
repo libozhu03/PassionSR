@@ -365,7 +365,7 @@ class saw_Linear_QuantLayer(QuantLayer):
             elif self.running_stat:
                 self.update_scale(input)
             offset = self.offset.expand_as(input)
-            input = (input - offset) / self.scale_factor
+            input = (input + offset) / self.scale_factor
             recond_bias = self.weight @ self.offset.T
             recond_bias = recond_bias.squeeze(1)
             weight = self.weight * self.scale_factor

@@ -2,7 +2,7 @@
 device: cuda:0 # useless
 out_dir: results/quantize/saw_sep/U/W6A6
 
-dataset: DRealSR # ["DIV2K_val", "RealSR", "DRealSR"]
+dataset: DIV2K_val # ["DIV2K_val", "RealSR", "DRealSR"]
 
 basic_config:
   seed: 42
@@ -31,7 +31,8 @@ quantize_config:
   quantize: True
   only_Unet: True
   Unet:
-    quant_ckpt: weights/U_W6A6/PTQ/unet_ckpt_merge_saw_sep.pth
+    # quant_ckpt: weights/U_W6A6/PTQ/unet_ckpt_merge_saw_sep.pth
+    quant_ckpt: results/quantize/saw_sep/U/W6A6/PTQ/unet_ckpt_merge_saw_sep.pth
     quantype: PTQ
     method: saw_sep
     only_weight: False

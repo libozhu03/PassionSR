@@ -9,6 +9,7 @@ save_version
 hf-models/sd21
 reset
 results
+results_save
 lightning_logs
 wandb
 visual_plot/picture

@@ -5,7 +5,6 @@ from tqdm import tqdm, trange
 from torch.utils.tensorboard import SummaryWriter
 from quantization.methods import *
 from criterions.methods import *
-import wandb
 import torch
 import torch.nn as nn
 import torchvision.utils as vutils
@@ -43,13 +42,8 @@ def saw_cali_U_sep(whole_model, quant_config, cali_data, merge, device, ):
     torch.cuda.empty_cache()
 
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    logdir = os.path.join(quant_config["output_modelpath"], 'log', "wb", current_time)
-    os.makedirs(logdir, exist_ok=True)
-    wandb.init(project="esaw_U", name=current_time, dir=logdir, config=quant_config)
-
     logdir = os.path.join(quant_config["output_modelpath"], 'log', "tb", current_time)
     writer = SummaryWriter(logdir)
-    wandb.tensorboard.patch(root_logdir=logdir)
 
     unet_scale_factor_list = whole_model.unet.get_all_scale_factor()
     train_params = unet_scale_factor_list
@@ -82,8 +76,6 @@ def saw_cali_U_sep(whole_model, quant_config, cali_data, merge, device, ):
                 output = whole_model(lq)
                 contrast_image_list.append(cali_gs[inds[select_batch_id:select_batch_id+1]])
                 image_list.append(output)
-                wandb.log({"quantized_images/s": [wandb.Image(output.squeeze())]})
-                wandb.log({"contrast_images/s": [wandb.Image(cali_gs[inds[select_batch_id:select_batch_id+1]].squeeze())]})
             image = torch.cat(image_list, dim=0)
             contrast_image = torch.cat(contrast_image_list, dim=0)
 
@@ -119,12 +111,8 @@ def saw_cali_U_sep(whole_model, quant_config, cali_data, merge, device, ):
             if writer is not None:
                 writer.add_scalar(f'cali_Loss_scaling_factor/{quant_method}_{quant_config["Unet"]["method"]}/s',
                                 loss.item(), i * batch_size + idx * cali_xs.size(0))
-                wandb.log({f'cali_Loss_scaling_factor/{quant_method}_{quant_config["Unet"]["method"]}/s': loss.item()},
-                                )
                 writer.add_scalar(f'psnr/{quant_method}_{quant_config["Unet"]["method"]}/s',
                                 psnr_loss(output_image, gt_image).item(), i * batch_size + idx * cali_xs.size(0))
-                wandb.log({f'psnr/{quant_method}_{quant_config["Unet"]["method"]}/s': psnr_loss(output_image, gt_image).item()},
-                                )
         scheduler.step()
         # if idx % save_interval == 0:
         #     method = quant_config["Unet"]["method"]
@@ -168,8 +156,6 @@ def saw_cali_U_sep(whole_model, quant_config, cali_data, merge, device, ):
                 output = whole_model(lq)
                 contrast_image_list.append(cali_gs[inds[select_batch_id:select_batch_id+1]])
                 image_list.append(output)
-                wandb.log({"quantized_images/q": [wandb.Image(output.squeeze())]})
-                wandb.log({"contrast_images/q": [wandb.Image(cali_gs[inds[select_batch_id:select_batch_id+1]].squeeze())]})
             image = torch.cat(image_list, dim=0)
             contrast_image = torch.cat(contrast_image_list, dim=0)
 
@@ -205,12 +191,8 @@ def saw_cali_U_sep(whole_model, quant_config, cali_data, merge, device, ):
             if writer is not None:
                 writer.add_scalar(f'cali_Loss_scaling_factor/{quant_method}_{quant_config["Unet"]["method"]}/q',
                                 loss.item(), i * batch_size + idx * cali_xs.size(0))
-                wandb.log({f'cali_Loss_scaling_factor/{quant_method}_{quant_config["Unet"]["method"]}/q': loss.item()},
-                                )
                 writer.add_scalar(f'psnr/{quant_method}_{quant_config["Unet"]["method"]}/q',
                                 psnr_loss(output_image, gt_image).item(), i * batch_size + idx * cali_xs.size(0))
-                wandb.log({f'psnr/{quant_method}_{quant_config["Unet"]["method"]}/q': psnr_loss(output_image, gt_image).item()},
-                                )
         scheduler.step()
         # if idx % save_interval == 0:
         #     method = quant_config["Unet"]["method"]
@@ -222,8 +204,6 @@ def saw_cali_U_sep(whole_model, quant_config, cali_data, merge, device, ):
         #         torch.save(whole_model.unet.state_dict(), os.path.join(logdir, f"unet_ckpt_{method}.pth"))
         #     # save_model_params_to_txt(qnn, os.path.join(logdir, "contrast_model_param.txt"))
         #     print(f"Model saved to {logdir}")
-
-    wandb.finish()
     writer.close()
     return whole_model
 
@@ -256,12 +236,8 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
     torch.cuda.empty_cache()
 
     current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    logdir = os.path.join(quant_config["output_modelpath"], 'log', "wb", current_time)
-    os.makedirs(logdir, exist_ok=True)
-    wandb.init(project="esaw_UV", name=current_time, dir=logdir, config=quant_config)
     logdir = os.path.join(quant_config["output_modelpath"], 'log', "tb", current_time)
     writer = SummaryWriter(logdir)
-    wandb.tensorboard.patch(root_logdir=logdir)
 
     # calibrate encoder
     encoder_scale_factor_list = whole_model.vae.get_all_scale_factor(pick="encoder")
@@ -300,8 +276,6 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             if writer is not None:
                     writer.add_scalar(f'cali_Loss_encoder/{quant_method}_{quant_config["Unet"]["method"]}/s',
                                     loss.item(), i * batch_size + idx * cali_xs.size(0))
-                    wandb.log({f'cali_Loss_encoder/{quant_method}_{quant_config["Unet"]["method"]}/s': loss.item()},
-                                    )
         if scheduler is not None:
             scheduler.step()
 
@@ -339,8 +313,6 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             if writer is not None:
                     writer.add_scalar(f'cali_Loss_encoder/{quant_method}_{quant_config["Unet"]["method"]}/q',
                                     loss.item(), i * batch_size + idx * cali_xs.size(0))
-                    wandb.log({f'cali_Loss_encoder/{quant_method}_{quant_config["Unet"]["method"]}/q': loss.item()},
-                                    )
         if scheduler is not None:
             scheduler.step()
     
@@ -392,8 +364,6 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
                 out_image = out_image * 0.5 + 0.5
                 contrast_image_list.append(cali_gs[ind])
                 image_list.append(out_image)
-                wandb.log({"quantized_images/s": [wandb.Image(out_image)]},)
-                wandb.log({"contrast_images/s": [wandb.Image(cali_gs[ind])]},)
             image = torch.cat(image_list, dim=0)
             contrast_image = torch.cat(contrast_image_list, dim=0)
 
@@ -424,12 +394,8 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             if writer is not None:
                 writer.add_scalar(f'cali_Loss_Unet/{quant_method}_{quant_config["Unet"]["method"]}/s',
                                 loss.item(), i * batch_size + idx * cali_xs.size(0))
-                wandb.log({f'cali_Loss_Unet/{quant_method}_{quant_config["Unet"]["method"]}/s': loss.item()},
-                                )
                 writer.add_scalar(f'psnr_Unet/{quant_method}_{quant_config["Unet"]["method"]}/s',
                                 psnr_loss(output_image, contrast_image).item(), i * batch_size + idx * cali_xs.size(0))
-                wandb.log({f'psnr_Unet/{quant_method}_{quant_config["Unet"]["method"]}/s': psnr_loss(output_image, contrast_image).item()},
-                                )
                 global_idx += 1
         if scheduler is not None:
             scheduler.step()
@@ -468,8 +434,6 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
                 out_image = out_image * 0.5 + 0.5
                 contrast_image_list.append(cali_gs[ind])
                 image_list.append(out_image)
-                wandb.log({"quantized_images/q": [wandb.Image(out_image)]},)
-                wandb.log({"contrast_images/q": [wandb.Image(cali_gs[ind])]},)
             image = torch.cat(image_list, dim=0)
             contrast_image = torch.cat(contrast_image_list, dim=0)
 
@@ -501,12 +465,8 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             if writer is not None:
                 writer.add_scalar(f'cali_Loss_Unet/{quant_method}_{quant_config["Unet"]["method"]}/q',
                                 loss.item(), i * batch_size + idx * cali_xs.size(0))
-                wandb.log({f'cali_Loss_Unet/{quant_method}_{quant_config["Unet"]["method"]}/q': loss.item()},
-                                )
                 writer.add_scalar(f'psnr_Unet/{quant_method}_{quant_config["Unet"]["method"]}/q',
                                 psnr_loss(output_image, contrast_image).item(), i * batch_size + idx * cali_xs.size(0))
-                wandb.log({f'psnr_Unet/{quant_method}_{quant_config["Unet"]["method"]}/q': psnr_loss(output_image, contrast_image).item()},
-                                )
                 global_idx += 1
         if scheduler is not None:
             scheduler.step()
@@ -561,18 +521,12 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             if writer is not None:
                     writer.add_scalar(f'cali_Loss_decoder/{quant_method}_{quant_config["Unet"]["method"]}/s',
                                     loss.item(), i * batch_size + idx * cali_xs.size(0))
-                    wandb.log({f'cali_Loss_decoder/{quant_method}_{quant_config["Unet"]["method"]}/s': loss.item()},
-                                    )
                     writer.add_scalar(f'psnr_decoder/{quant_method}_{quant_config["Unet"]["method"]}/s',
                                 psnr_loss(output_image, gt_image).item(), i * batch_size + idx * cali_xs.size(0))
-                    wandb.log({f'psnr_decoder/{quant_method}_{quant_config["Unet"]["method"]}/s': psnr_loss(output_image, gt_image).item()},
-                                    )
                     writer.add_image('images_decoder/quantized_images/s', output_image,
                                     global_step=idx* int(cali_xs.size(0) / batch_size)+i, dataformats='NCHW')
                     writer.add_image('images_decoder/fp_images/s', gt_image,
                                     global_step=idx* int(cali_xs.size(0) / batch_size)+i, dataformats='NCHW')
-                    wandb.log({"quantized_images_decoder/s": [wandb.Image(output_image)]},)
-                    wandb.log({"fp_images_decoder/s": [wandb.Image(gt_image)]},)
 
         if scheduler is not None:
             scheduler.step()
@@ -613,22 +567,15 @@ def saw_cali_UV_sep(unet_f, vae_f, whole_model, quant_config, cali_data, merge, 
             if writer is not None:
                     writer.add_scalar(f'cali_Loss_decoder/{quant_method}_{quant_config["Unet"]["method"]}/q',
                                     loss.item(), i * batch_size + idx * cali_xs.size(0))
-                    wandb.log({f'cali_Loss_decoder/{quant_method}_{quant_config["Unet"]["method"]}/q': loss.item()},
-                                    )
                     writer.add_scalar(f'psnr_decoder/{quant_method}_{quant_config["Unet"]["method"]}/q',
                                 psnr_loss(output_image, gt_image).item(), i * batch_size + idx * cali_xs.size(0))
-                    wandb.log({f'psnr_decoder/{quant_method}_{quant_config["Unet"]["method"]}/q': psnr_loss(output_image, gt_image).item()},
-                                    )
                     writer.add_image('images_decoder/quantized_images/q', output_image,
                                     global_step=idx* int(cali_xs.size(0) / batch_size)+i, dataformats='NCHW')
                     writer.add_image('images_decoder/fp_images/q', gt_image,
                                     global_step=idx* int(cali_xs.size(0) / batch_size)+i, dataformats='NCHW')
-                    wandb.log({"quantized_images_decoder/q": [wandb.Image(output_image)]},)
-                    wandb.log({"fp_images_decoder/q": [wandb.Image(gt_image)]},)
 
         if scheduler is not None:
             scheduler.step()
 
-    wandb.finish()
     writer.close()
     return whole_model

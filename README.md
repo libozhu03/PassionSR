@@ -97,14 +97,15 @@ git clone https://github.com/libozhu03/PassionSR.git
 cd PassionSR
 conda create -n passionsr python=3.10
 conda activate passionsr
-pip install -r requirements.txt
+conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
+pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
 ```
 
 Tested with:
 
 * Python 3.10
-* PyTorch 2.2.2
-* CUDA 12.1
+* PyTorch 2.0.1
+* CUDA 11.8
 
 
 ---

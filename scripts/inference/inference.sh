@@ -1,3 +1,3 @@
-CUDA_VISIBLE_DEVICES="3" \
+CUDA_VISIBLE_DEVICES="6" \
 python inference_single.py \
-        --config scripts/inference/config/saw_sep/UV/saw_U_W8A8_V_W8A8.yaml
+        --config scripts/inference/config/saw_sep/U/saw_W6A6.yaml
