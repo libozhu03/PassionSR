@@ -220,10 +220,10 @@ CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/inference/c
 CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/inference/config/saw_sep/UV/saw_U_W6A6_V_W6A6.yaml
 
 # Reprodue the W8A8 results of Table 1 in the supplementary material. 
-CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/PTQ/config/U/saw_sep/saw_W8A8.yaml
+CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/inference/config/saw_sep/U/saw_W8A8.yaml
 
 # Reprodue the W6A6 results of Table 1 in the supplementary material. 
-CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/PTQ/config/U/saw_sep/saw_W6A6.yaml
+CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/inference/config/saw_sep/U/saw_W8A8.yaml
 ```
 
 ### 🔧 Configuration Example:
