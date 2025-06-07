@@ -24,12 +24,12 @@
 - [🔥 News](#-news)
 - [📘 Abstract](#-abstract)
 - [📝 Structure Overview](#-structure-overview)
-- [🔎 Results](#-results)
 - [⚙️ Installation](#️-installation)
 - [📥 Download Pretrained Models](#-download-pretrained-models)
 - [🏋️ Training](#-training)
 - [🧪 Inference](#-inference)
 - [📦 Measure](#-measure)
+- [🔎 Results](#-results)
 - [📝 Acknowledgements](#-acknowledgements)
 - [📌 Citation](#-citation)
 
@@ -67,29 +67,7 @@
 
 ---
 
-## <a name="-results"></a> 🔎 Results
-PassionSR significantly out-performs previous methods at the setting of W8A8 and W6A6. 
 
-Detailed results can be downloaded at [OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/EhotaDEaaAxKh32w0sK5tb8Bw2gtcO57YJn6DqPRvwWQwQ?e=q1Lf8e).
-
-<details>
-<summary> 📊 Quantitative comparisons in Table 2 of the main paper (click to expand)</summary>
-
-<p align="center">
-  <img width="900" src="asserts/figs/results_UNet_Vae.png">
-</p>
-</details>
-
-<details>
-<summary> 🖼 Visual comparison in Figure 6 of the main paper (click to expand)
-</summary>
-
-<p align="center">
-  <img width="900" src="asserts/figs/visual_UNet_Vae.png">
-</p>
-</details>
-
----
 
 ## ⚙️ Installation
 To set up the environment, clone the repository and create a new Conda environment using the provided dependencies.
@@ -283,7 +261,32 @@ Evaluate model performance by comparing super-resolution outputs against high-re
 ```bash
 CUDA_VISIBLE_DEVICES="0" python measure.py -i YOUR_IMAGE_PATH -r HR_IMAGE_PATH
 ```
+
 This script computes the image quality metrics presented in paper to assess the effectiveness of quantized inference.
+
+---
+
+## <a name="-results"></a> 🔎 Results
+PassionSR significantly out-performs previous methods at the setting of W8A8 and W6A6. 
+
+Detailed results can be downloaded at [OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/EhotaDEaaAxKh32w0sK5tb8Bw2gtcO57YJn6DqPRvwWQwQ?e=q1Lf8e).
+
+<details>
+<summary> 📊 Quantitative comparisons in Table 2 of the main paper (click to expand)</summary>
+
+<p align="center">
+  <img width="900" src="asserts/figs/results_UNet_Vae.png">
+</p>
+</details>
+
+<details>
+<summary> 🖼 Visual comparison in Figure 6 of the main paper (click to expand)
+</summary>
+
+<p align="center">
+  <img width="900" src="asserts/figs/visual_UNet_Vae.png">
+</p>
+</details>
 
 ---
 
