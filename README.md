@@ -98,7 +98,7 @@ We provide pretrained weights for PassionSR under different settings.
 | PassionSR | The calibrated model weights under different settings     |  [OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/Es0NSYgpZUtIoc9KWf5Dp2IBvUbZVUPOgRLTGfRQ1hIKNw?e=NzQcti) |
 | SD2.1     | Official model weights of stable diffusion 2.1  | [Huggingface](https://huggingface.co/stabilityai/stable-diffusion-2-1-base) |
 
-Place PassionSR's weights in `./weights/` and SD2.1 in `./hf-models/`.
+Place PassionSR's weights in `./weights` and SD2.1 in `./hf-models`.
 
 ---
 
@@ -120,7 +120,8 @@ CUDA_VISIBLE_DEVICES="0" python ptq_quantize_single.py --config_file scripts/PTQ
 CUDA_VISIBLE_DEVICES="0" python ptq_quantize_single.py --config_file scripts/PTQ/config/U/saw_sep/saw_W6A6.yaml
 ```
 
-### 🔧 Configuration Example:
+<details>
+<summary> 🔧 Training Configuration Example:</summary>
 The example YAML config demonstrates typical usage and can be adapted for different settings.
 
 ```yaml
@@ -181,11 +182,10 @@ quantize_config:
     milestones: [1]
     gamma: 0.1
   save_interval: 2
-
 ```
+</details>
 
 ---
-
 ## 🧪 Inference
 Use the following command to run inference with quantized models.
 The pipeline supports various datasets (e.g., DIV2K_val, RealSR, DRealSR) and includes options for tiling, LoRA merging.
@@ -204,7 +204,10 @@ CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/inference/c
 CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/inference/config/saw_sep/U/saw_W8A8.yaml
 ```
 
-### 🔧 Configuration Example:
+<details>
+<summary> 🔧 Inference Configuration Example:</summary>
+The example YAML config demonstrates typical usage and can be adapted for different settings.
+
 ```yaml
 # device setting
 device: cuda:0
@@ -255,6 +258,9 @@ quantize_config:
     s_alpha: 0.3
 
 ```
+
+</details>
+
 
 ## 📦 Measure
 Evaluate model performance by comparing super-resolution outputs against high-resolution ground truth images:
