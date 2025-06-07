@@ -120,7 +120,7 @@ We provide pretrained weights for PassionSR under different settings.
 | PassionSR | The calibrated model weights under different settings     |  [OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/Es0NSYgpZUtIoc9KWf5Dp2IBvUbZVUPOgRLTGfRQ1hIKNw?e=NzQcti) |
 | SD2.1     | Official model weights of stable diffusion 2.1  | [Huggingface](https://huggingface.co/stabilityai/stable-diffusion-2-1-base) |
 
-Place them in `./weights/`.
+Place PassionSR's weights in `./weights/` and SD2.1 in `./hf-models/`.
 
 ---
 
@@ -129,7 +129,17 @@ Run the command below to perform Post-Training Quantization (PTQ) using your des
 The script loads pretrained Stable Diffusion and OSEDiff weights, and applies quantization to selected components (e.g., UNet and/or VAE).
 
 ```bash
-CUDA_VISIBLE_DEVICES="0" python ptq_quantize_single.py --config_file config_path
+# Train the W8A8 models of Table 2 in the main paper. 
+CUDA_VISIBLE_DEVICES="0" python ptq_quantize_single.py --config_file scripts/PTQ/config/UV/saw_sep/saw_U_W8A8_V_W8A8.yaml
+
+# Train the W6A6 models of Table 2 in the main paper. 
+CUDA_VISIBLE_DEVICES="0" python ptq_quantize_single.py --config_file scripts/PTQ/config/UV/saw_sep/saw_U_W6A6_V_W6A6.yaml
+
+# Train the W8A8 models of Table 1 in the supplementary material. 
+CUDA_VISIBLE_DEVICES="0" python ptq_quantize_single.py --config_file scripts/PTQ/config/U/saw_sep/saw_W8A8.yaml
+
+# Train the W6A6 models of Table 1 in the supplementary material.
+CUDA_VISIBLE_DEVICES="0" python ptq_quantize_single.py --config_file scripts/PTQ/config/U/saw_sep/saw_W6A6.yaml
 ```
 
 ### 🔧 Configuration Example:
@@ -203,7 +213,17 @@ Use the following command to run inference with quantized models.
 The pipeline supports various datasets (e.g., DIV2K_val, RealSR, DRealSR) and includes options for tiling, LoRA merging.
 
 ```bash
-CUDA_VISIBLE_DEVICES="0" python inference_single.py --config config_path
+# Reprodue the W8A8 results of Table 2 in the main paper. 
+CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/inference/config/saw_sep/UV/saw_U_W8A8_V_W8A8.yaml
+
+# Reprodue the W6A6 results of Table 2 in the main paper. 
+CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/inference/config/saw_sep/UV/saw_U_W6A6_V_W6A6.yaml
+
+# Reprodue the W8A8 results of Table 1 in the supplementary material. 
+CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/PTQ/config/U/saw_sep/saw_W8A8.yaml
+
+# Reprodue the W6A6 results of Table 1 in the supplementary material. 
+CUDA_VISIBLE_DEVICES="0" python inference_single.py --config scripts/PTQ/config/U/saw_sep/saw_W6A6.yaml
 ```
 
 ### 🔧 Configuration Example:
