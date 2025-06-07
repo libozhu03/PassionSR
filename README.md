@@ -26,7 +26,7 @@
 - [📝 Structure Overview](#-structure-overview)
 - [🔎 Results](#-results)
 - [⚙️ Installation](#️-installation)
-- [📦 Download Pretrained Models](#-download-pretrained-models)
+- [📥 Download Pretrained Models](#-download-pretrained-models)
 - [🏋️ Training](#-training)
 - [🧪 Inference](#-inference)
 - [📦 Measure](#-measure)
@@ -36,10 +36,12 @@
 ---
 
 ## 🔥 News
+- 🎉 **[2025-06-07]** Release code.
+- 🚩 **[2025-3-10]** The 2/4-bit version [QArtSR](https://github.com/libozhu03/QArtSR) is released.
+- 🏆 **[2025-02-27]** Congratulations, PassionSR has been accepted to CVPR 2025.
+- **[2024-11-25]** Create repository.
 
-- 🗓 **2024-11-25:** Repository released.
-- 🏆 **2025-02-27:** PassionSR accepted to CVPR 2025 🎉
-
+### ⭐⭐⭐ If PassionSR is helpful to your projects, please help star this repo. Thanks! ⭐⭐⭐
 ---
 
 ## 📘 Abstract
@@ -110,7 +112,7 @@ Tested with:
 
 ---
 
-## 📦 Download Pretrained Models
+## 📥 Download Pretrained Models
 We provide pretrained weights for PassionSR under different settings.
 
 | Model     | Information     | Link                                |
