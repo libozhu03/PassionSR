@@ -26,7 +26,7 @@
 - [📝 Structure Overview](#-structure-overview)
 - [⚙️ Installation](#️-installation)
 - [📥 Download Pretrained Models](#-download-pretrained-models)
-- [🏋️ Training](#-training)
+- [🏋️ Training](#training)
 - [🧪 Inference](#-inference)
 - [📦 Measure](#-measure)
 - [🔎 Results](#-results)
