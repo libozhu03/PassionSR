@@ -41,7 +41,7 @@
 - 🏆 **[2025-02-27]** Congratulations, PassionSR has been accepted to CVPR 2025.
 - **[2024-11-25]** Create repository.
 
-### ⭐⭐⭐ If PassionSR is helpful to your projects, please help star this repo. Thanks! ⭐⭐⭐
+### ⭐⭐⭐ If PassionSR is helpful to your projects, please help star this repo. Thanks!
 ---
 
 ## 📘 Abstract
