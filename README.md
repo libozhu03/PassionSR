@@ -26,7 +26,7 @@
 - [📝 Structure Overview](#-structure-overview)
 - [⚙️ Installation](#️-installation)
 - [📥 Download Pretrained Models](#-download-pretrained-models)
-- [🏋️ Training](#training)
+- [📈 Training](#training)
 - [🧪 Inference](#-inference)
 - [📦 Measure](#-measure)
 - [🔎 Results](#-results)
@@ -102,7 +102,7 @@ Place PassionSR's weights in `./weights` and SD2.1 in `./hf-models`.
 
 ---
 
-## 🏋️ Training
+## 📈 Training
 Run the command below to perform Post-Training Quantization (PTQ) using your desired configuration file.
 The script loads pretrained Stable Diffusion and OSEDiff weights, and applies quantization to selected components (e.g., UNet and/or VAE).
 
