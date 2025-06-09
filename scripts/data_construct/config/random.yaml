@@ -1,6 +1,0 @@
-dataset: [DIV2K]
-output_dir: data/cali_dataset
-
-num_samples: 128
-crop_size: 128
-upscale: 4

@@ -25,7 +25,7 @@
 - [📘 Abstract](#-abstract)
 - [📝 Structure Overview](#-structure-overview)
 - [⚙️ Installation](#️-installation)
-- [📥 Download Pretrained Models](#-download-pretrained-models)
+- [📥 Download Pretrained Models and Datasets](#-download-pretrained-models-and-datasets)
 - [📈 Training](#-training)
 - [🧪 Inference](#-inference)
 - [📦 Measure](#-measure)
@@ -90,7 +90,7 @@ Tested with:
 
 ---
 
-## 📥 Download Pretrained Models
+## 📥 Download Pretrained Models and Datasets
 We provide pretrained weights for PassionSR under different settings.
 
 | Model     | Information     | Link                                |
@@ -99,6 +99,14 @@ We provide pretrained weights for PassionSR under different settings.
 | SD2.1     | Official model weights of stable diffusion 2.1  | [Huggingface](https://huggingface.co/stabilityai/stable-diffusion-2-1-base) |
 
 Place PassionSR's weights in `./weights` and SD2.1 in `./hf-models`.
+
+Used training and testing sets can be downloaded as follows:
+
+|Training Set   | Testing Set    | Visual results                   |
+| --------- | --------------- | --------------- |
+|  500 training images [[OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/EuM_QiSeDiFPjH7SF79V-0sBTsKPFzoB9Ny6DBt78R6QaA?e=fORWua)] | RealSR + DRealSR + DIV2K_val [[OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/Er8p93-FiftCgt4_3V4o5hABTW8FrDfYsOtkf63yOzpSeg?e=W197C4)] | [OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/EhotaDEaaAxKh32w0sK5tb8Bw2gtcO57YJn6DqPRvwWQwQ?e=q1Lf8e) |
+
+Download training and testing datasets and put them into the corresponding folders of `./data`.
 
 ---
 
