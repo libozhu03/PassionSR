@@ -37,7 +37,7 @@
 
 ## 🔥 News
 - 🎉 **[2025-06-09]** Release code.
-- 🚩 **[2025-3-10]** The 2/4-bit version [QArtSR](https://github.com/libozhu03/QArtSR) is released.
+- 🚩 **[2025-03-10]** The 2/4-bit version [QArtSR](https://github.com/libozhu03/QArtSR) is released.
 - 🏆 **[2025-02-27]** Congratulations, PassionSR has been accepted to CVPR 2025.
 - **[2024-11-25]** Create repository.
 
