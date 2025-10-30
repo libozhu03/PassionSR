@@ -95,7 +95,7 @@ We provide pretrained weights for PassionSR under different settings.
 
 | Model     | Information     | Link                                |
 | --------- | --------------- | ----------------------------------- |
-| PassionSR | The calibrated model weights under different settings     |  [OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/Es0NSYgpZUtIoc9KWf5Dp2IBvUbZVUPOgRLTGfRQ1hIKNw?e=NzQcti) |
+| PassionSR | The calibrated model weights under different settings     |  [Google Drive](https://drive.google.com/drive/folders/1F-1DDPcBIp29gvxCxgNL-l3FqphGVLY4?usp=drive_link) |
 | SD2.1     | Official model weights of stable diffusion 2.1  | [Huggingface](https://huggingface.co/stabilityai/stable-diffusion-2-1-base) |
 
 Place PassionSR's weights in `./weights` and SD2.1 in `./hf-models`.
@@ -104,7 +104,7 @@ Used training and testing sets can be downloaded as follows:
 
 |Training Set   | Testing Set    | Visual results                   |
 | --------- | --------------- | --------------- |
-|  500 training images [[OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/EuM_QiSeDiFPjH7SF79V-0sBTsKPFzoB9Ny6DBt78R6QaA?e=fORWua)] | RealSR + DRealSR + DIV2K_val [[OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/Er8p93-FiftCgt4_3V4o5hABTW8FrDfYsOtkf63yOzpSeg?e=W197C4)] | [OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/EhotaDEaaAxKh32w0sK5tb8Bw2gtcO57YJn6DqPRvwWQwQ?e=q1Lf8e) |
+|  500 training images [[Google Drive](https://drive.google.com/drive/folders/1WO804NdqJxNyZpYx7_HfWiZdv17jOz_K?usp=drive_link)] | RealSR + DRealSR + DIV2K_val [[Google Drive](https://drive.google.com/drive/folders/1bMPM9eS5UgYf8Pk6Na1MUOyspivmmaVW?usp=drive_link)] | [Google Drive](https://drive.google.com/drive/folders/121TetRqUdup1MueGJFZJF8jeXGU3RM3_?usp=drive_link) |
 
 Download training and testing datasets and put them into the corresponding folders of `./data`.
 
@@ -283,7 +283,7 @@ This script computes the image quality metrics presented in paper to assess the 
 ## <a name="-results"></a> 🔎 Results
 PassionSR significantly out-performs previous methods at the setting of W8A8 and W6A6. 
 
-Detailed results can be downloaded at [OneDrive](https://sjtueducn-my.sharepoint.com/:f:/g/personal/2814436848-zlb_sjtu_edu_cn/EhotaDEaaAxKh32w0sK5tb8Bw2gtcO57YJn6DqPRvwWQwQ?e=q1Lf8e).
+Detailed results can be downloaded at [Google Drive](https://drive.google.com/drive/folders/121TetRqUdup1MueGJFZJF8jeXGU3RM3_?usp=drive_link).
 
 <details>
 <summary> 📊 Quantitative comparisons in Table 2 of the main paper (click to expand)</summary>
